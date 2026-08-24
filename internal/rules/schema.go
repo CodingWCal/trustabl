@@ -92,6 +92,7 @@ type MatchExpr struct {
 	AgentRunCallMaxTurnsMissing    *bool                     `yaml:"agent_run_call_max_turns_missing,omitempty"`
 	AgentRunCallUsageLimitsMissing *bool                     `yaml:"agent_run_call_usage_limits_missing,omitempty"`
 	AgentMCPServerKwargMissing     *MCPServerKwargExpr       `yaml:"agent_mcp_server_kwarg_missing,omitempty"`
+	AgentFileURLForceDownload      *bool                     `yaml:"agent_file_url_force_download,omitempty"`
 
 	// Subagent-scope predicates
 	SubagentGrantsTool []string `yaml:"subagent_grants_tool,omitempty"`
