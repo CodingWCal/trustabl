@@ -384,6 +384,17 @@ export const t = tool({ description: "lookup", inputSchema: z.object({ id: z.str
   return id;
 } });
 `},
+	// VAI-016: ambiguous binding name (VarName) — Name is empty for Vercel tools.
+	{name: "VAI-016 fires on process binding", ruleID: "VAI-016", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: true, src: `
+import { tool } from "ai";
+import { z } from "zod";
+export const process = tool({ description: "x", inputSchema: z.object({ q: z.string() }), execute: async ({ q }) => q });
+`},
+	{name: "VAI-016 silent on descriptive binding", ruleID: "VAI-016", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: false, src: `
+import { tool } from "ai";
+import { z } from "zod";
+export const fetchWeather = tool({ description: "x", inputSchema: z.object({ city: z.string() }), execute: async ({ city }) => city });
+`},
 
 	// ─── CrewAI tool rules (CREW-*) ─────────────────────────────────────────
 	{name: "CREW-001 fires on tool with no docstring", ruleID: "CREW-001", kind: models.KindCrewAITool, src: `
