@@ -395,29 +395,29 @@ import { tool } from "ai";
 import { z } from "zod";
 export const fetchWeather = tool({ description: "x", inputSchema: z.object({ city: z.string() }), execute: async ({ city }) => city });
 `},
-	// VAI-013: privileged Vercel tools need an explicit human approval gate.
-	{name: "VAI-013 fires on shell tool with no needsApproval", ruleID: "VAI-013", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: true, src: `
+	// VAI-018: privileged Vercel tools need an explicit human approval gate.
+	{name: "VAI-018 fires on shell tool with no needsApproval", ruleID: "VAI-018", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: true, src: `
 import { tool } from "ai";
 import { z } from "zod";
 import { execSync } from "child_process";
 export const t = tool({ description: "run", inputSchema: z.object({ cmd: z.string() }), execute: async ({ cmd }) => execSync(cmd).toString() });
 `},
-	{name: "VAI-013 fires on eval tool with needsApproval false", ruleID: "VAI-013", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: true, src: `
+	{name: "VAI-018 fires on eval tool with needsApproval false", ruleID: "VAI-018", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: true, src: `
 import { tool } from "ai";
 import { z } from "zod";
 export const t = tool({ description: "calc", inputSchema: z.object({ expr: z.string() }), needsApproval: false, execute: async ({ expr }) => eval(expr) });
 `},
-	{name: "VAI-013 silent on approved dynamic shell tool", ruleID: "VAI-013", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: false, src: `
+	{name: "VAI-018 silent on approved dynamic shell tool", ruleID: "VAI-018", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: false, src: `
 import { dynamicTool } from "ai";
 import { execSync } from "child_process";
 export const t = dynamicTool({ description: "run", needsApproval: true, execute: async ({ cmd }) => execSync(cmd).toString() });
 `},
-	{name: "VAI-013 silent when approval is a callback", ruleID: "VAI-013", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: false, src: `
+	{name: "VAI-018 silent when approval is a callback", ruleID: "VAI-018", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: false, src: `
 import { tool } from "ai";
 import { z } from "zod";
 export const t = tool({ description: "calc", inputSchema: z.object({ expr: z.string() }), needsApproval: async ({ expr }) => expr.length > 0, execute: async ({ expr }) => eval(expr) });
 `},
-	{name: "VAI-013 silent on non-privileged tool without approval", ruleID: "VAI-013", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: false, src: `
+	{name: "VAI-018 silent on non-privileged tool without approval", ruleID: "VAI-018", kind: models.KindVercelAITool, lang: models.LanguageTypeScript, wantFires: false, src: `
 import { tool } from "ai";
 import { z } from "zod";
 export const t = tool({ description: "add", inputSchema: z.object({ a: z.number() }), execute: async ({ a }) => a + 1 });
